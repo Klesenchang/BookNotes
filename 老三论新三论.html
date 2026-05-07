@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>什么是"老三论"、"新三论"？</title>
+<meta name="author" content="吴天准">
+<meta name="description" content="系统论、控制论、信息论（老三论）与耗散结构论、协同论、突变论（新三论）的理论概述。">
+<meta name="keywords" content="老三论,新三论,系统论,控制论,信息论,耗散结构论,协同论,突变论">
+<meta name="generator" content="Kami">
+<style>
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("../assets/fonts/TsangerJinKai02-W04.ttf") format("truetype"),
+       url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W04.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("../assets/fonts/TsangerJinKai02-W05.ttf") format("truetype"),
+       url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W05.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @page {
+    size: A4;
+    margin: 15mm 18mm 18mm 18mm;
+    background: #f5f4ed;
+    @top-right {
+      content: string(section-title);
+      font-family: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", Georgia, serif;
+      font-size: 16pt;
+      color: #6b6a64;
+    }
+    @bottom-center {
+      content: counter(page) "  ·  什么是"老三论"、"新三论"？";
+      font-family: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", Georgia, serif;
+      font-size: 13pt;
+      color: #6b6a64;
+    }
+  }
+  @page:first {
+    @top-right { content: ""; }
+    @bottom-center { content: ""; }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --parchment: #f5f4ed;
+    --ivory:     #faf9f5;
+    --near-black:#141413;
+    --dark-warm: #3d3d3a;
+    --olive:     #504e49;
+    --stone:     #6b6a64;
+    --brand:     #1B365D;
+    --border:    #e8e6dc;
+    --border-soft:#e5e3d8;
+    --tag-bg:    #E4ECF5;
+    --serif: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", Georgia, serif;
+    --sans: var(--serif);
+  }
+
+  html, body { background: var(--parchment); }
+
+  @media screen {
+    body { max-width: 210mm; margin: 0 auto; padding: 20mm 22mm 22mm 22mm; }
+  }
+
+  body {
+    color: var(--near-black);
+    font-family: var(--serif);
+    font-size: 16pt;
+    line-height: 1.38;
+    letter-spacing: 0.2pt;
+    widows: 2;
+    orphans: 2;
+  }
+
+  .sans { font-family: var(--sans); }
+
+  /* === COVER === */
+  .cover {
+    min-height: 240mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40mm 0 0 0;
+    break-after: page;
+  }
+  .cover-eyebrow {
+    font-family: var(--sans);
+    font-size: 16pt;
+    color: var(--brand);
+    letter-spacing: 1pt;
+    text-transform: uppercase;
+    margin-bottom: 18pt;
+  }
+  .cover-title {
+    font-size: 30pt;
+    font-weight: 500;
+    color: var(--near-black);
+    line-height: 1.15;
+    letter-spacing: 0.2pt;
+    margin-bottom: 14pt;
+  }
+  .cover-sub {
+    font-family: var(--sans);
+    font-size: 16pt;
+    color: var(--olive);
+    line-height: 1.5;
+    max-width: 85%;
+    margin-bottom: 28pt;
+  }
+  .cover-meta {
+    font-family: var(--sans);
+    font-size: 16pt;
+    color: var(--stone);
+    line-height: 1.5;
+  }
+  .cover-meta strong {
+    color: var(--dark-warm);
+    font-weight: 500;
+  }
+
+  /* === TOC === */
+  .toc { break-after: avoid; }
+  .toc h2 {
+    font-size: 22pt;
+    font-weight: 500;
+    margin-bottom: 12pt;
+    border-left: 2.5pt solid var(--brand);
+    border-radius: 1.5pt;
+    padding-left: 8pt;
+  }
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 5pt 0;
+    border-bottom: 0.3pt dotted var(--border);
+    font-size: 12.5pt;
+  }
+  .toc-item:last-of-type { border-bottom: none; }
+  .toc-num { color: var(--brand); font-weight: 500; min-width: 30pt; }
+  .toc-title { flex: 1; color: var(--near-black); padding-left: 6pt; }
+  .toc-page { color: var(--stone); font-variant-numeric: tabular-nums; }
+
+  /* === INTRO BRIEF (inside TOC page) === */
+  .intro-brief {
+    margin-top: 18pt;
+    padding: 10pt 14pt;
+    background: var(--ivory);
+    border-left: 2pt solid var(--brand);
+    border-radius: 3pt;
+  }
+  .intro-label {
+    font-family: var(--sans);
+    font-size: 13.5pt;
+    color: var(--brand);
+    font-weight: 500;
+    margin: 0 0 5pt 0;
+    letter-spacing: 0.3pt;
+  }
+  .intro-text {
+    font-size: 16pt;
+    line-height: 1.45;
+    color: var(--dark-warm);
+    margin: 0;
+  }
+
+  /* === HEADINGS === */
+  h1 {
+    font-size: 22pt;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0 0 10pt 0;
+    border-left: 2.5pt solid var(--brand);
+    border-radius: 1.5pt;
+    padding-left: 8pt;
+    color: var(--near-black);
+    break-after: avoid;
+  }
+  h2 {
+    font-size: 16pt;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 16pt 0 6pt 0;
+    color: var(--near-black);
+    break-after: avoid;
+    string-set: section-title content();
+  }
+  h3 {
+    font-size: 13.5pt;
+    font-weight: 500;
+    line-height: 1.25;
+    margin: 10pt 0 4pt 0;
+    color: var(--dark-warm);
+    break-after: avoid;
+  }
+  .chapter-num {
+    font-family: var(--sans);
+    font-size: 16pt;
+    color: var(--brand);
+    letter-spacing: 1pt;
+    text-transform: uppercase;
+    margin-bottom: 6pt;
+  }
+
+  /* === PARAGRAPHS === */
+  p {
+    margin: 0 0 7pt 0;
+    line-height: 1.38;
+    color: var(--near-black);
+    text-align: justify;
+    widows: 2;
+    orphans: 2;
+  }
+  .lead {
+    font-size: 13pt;
+    line-height: 1.45;
+    color: var(--dark-warm);
+    margin-bottom: 11pt;
+  }
+  .hl { color: var(--brand); font-weight: 500; }
+  strong { font-weight: 500; }
+
+  /* === LISTS === */
+  ul, ol {
+    margin: 4pt 0 7pt 0;
+    padding-left: 16pt;
+    line-height: 1.38;
+  }
+  ul li::marker { color: var(--brand); }
+  ol li::marker { color: var(--brand); font-weight: 500; }
+  li { margin-bottom: 2pt; }
+
+  /* === QUOTE === */
+  blockquote, .quote {
+    border-left: 2pt solid var(--brand);
+    margin: 8pt 0;
+    padding: 3pt 0 3pt 12pt;
+    color: var(--olive);
+    line-height: 1.4;
+    break-inside: avoid;
+    font-style: normal;
+  }
+  blockquote .cite, .quote .cite {
+    display: block;
+    font-size: 13pt;
+    color: var(--stone);
+    margin-top: 3pt;
+  }
+
+  /* === TABLE === */
+  table, .kami-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5pt;
+    margin: 10pt 0;
+    break-inside: avoid;
+  }
+  table th, .kami-table th {
+    text-align: left;
+    font-weight: 500;
+    color: var(--dark-warm);
+    padding: 5pt 8pt;
+    border-bottom: 1pt solid var(--border);
+    background: transparent;
+  }
+  table td, .kami-table td {
+    padding: 4pt 8pt;
+    border-bottom: 0.3pt solid var(--border-soft);
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  table .total td, .kami-table .total td {
+    font-weight: 500;
+    border-top: 1pt solid var(--brand);
+    border-bottom: none;
+    color: var(--near-black);
+  }
+
+  /* === CALLOUT === */
+  .callout {
+    background: var(--ivory);
+    border-left: 2pt solid var(--brand);
+    padding: 8pt 12pt;
+    border-radius: 3pt;
+    margin: 9pt 0;
+    line-height: 1.38;
+    break-inside: avoid;
+  }
+  .callout blockquote, .callout .quote {
+    border-left: none;
+    padding-left: 0;
+    margin: 0;
+    color: var(--olive);
+  }
+
+  .takeaway {
+    background: var(--ivory);
+    border-radius: 4pt;
+    padding: 9pt 13pt;
+    margin: 10pt 0;
+    break-inside: avoid;
+  }
+  .takeaway-label {
+    font-family: var(--sans);
+    font-size: 13pt;
+    color: var(--brand);
+    letter-spacing: 0.5pt;
+    text-transform: uppercase;
+    margin-bottom: 4pt;
+  }
+
+  /* === TAG === */
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--brand);
+    font-family: var(--sans);
+    font-size: 13pt;
+    font-weight: 500;
+    padding: 1pt 6pt;
+    border-radius: 3pt;
+    margin-right: 4pt;
+  }
+
+  /* === EXEC SUMMARY === */
+  .exec-summary {
+    background: var(--ivory);
+    border-left: 1.4pt solid var(--brand);
+    border-radius: 6pt;
+    padding: 12pt 16pt;
+    margin: 10pt 0;
+    break-inside: avoid;
+  }
+  .exec-summary h2 { margin-top: 0; font-size: 16pt; }
+
+  /* === CHAPTER BREAK === */
+  .chapter { break-before: page; }
+  .first-chapter { break-before: avoid; }
+
+  /* === TOPIC LABEL === */
+  .topic-label {
+    font-family: var(--sans);
+    font-size: 13pt;
+    color: var(--stone);
+    margin: 12pt 0 4pt 0;
+    letter-spacing: 0.3pt;
+  }
+
+  /* === FIGURE === */
+  figure { margin: 12pt 0; break-inside: avoid; }
+  figure img { max-width: 100%; border-radius: 4pt; }
+  figcaption {
+    font-family: var(--sans);
+    font-size: 13pt;
+    color: var(--stone);
+    margin-top: 5pt;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═════════════ COVER ═════════════ -->
+  <section class="cover">
+  <div>
+    <div class="cover-eyebrow"></div>
+    <div class="cover-title">什么是<br>"老三论"、"新三论"？</div>
+    <div class="cover-sub">系统科学的两大理论体系——"老三论"（系统论、控制论、信息论）与"新三论"（耗散结构论、协同论、突变论）的概述与比较</div>
+  </div>
+  <div class="cover-meta">
+    <strong>吴天准</strong><br>
+    东京大学中国留学生学术沙龙<br>
+    2008年6月8日 22:54:41
+  </div>
+</section>
+
+<!-- ═════════════ 目录 ═════════════ -->
+<section class="toc">
+  <h2>目录</h2>
+  <div class="toc-item">
+    <span class="toc-num">01</span>
+    <span class="toc-title">执行摘要</span>
+    <span class="toc-page">02</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">02</span>
+    <span class="toc-title">一、引言</span>
+    <span class="toc-page">02</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">02</span>
+    <span class="toc-title">二、老三论概述</span>
+    <span class="toc-page">03</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">03</span>
+    <span class="toc-title">三、新三论之一：突变理论</span>
+    <span class="toc-page">04</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">04</span>
+    <span class="toc-title">四、新三论之二：协同理论</span>
+    <span class="toc-page">05</span>
+  </div>
+
+  <div class="intro-brief">
+    <p class="intro-label">一、引言</p>
+    <p class="intro-text"><strong>老三论</strong>（系统论、控制论、信息论，40年代）合称 SCI 论；<strong>新三论</strong>（耗散结构论、协同论、突变论，70年代）合称 DSC 论。本文系统梳理两套理论的基本框架，阐述起源、核心概念与应用价值。</p>
+  </div>
+
+  <div class="exec-summary" style="margin-top: 14pt;">
+    <h2>核心 Takeaways</h2>
+    <ul>
+      <li><strong>老三论（SCI论）</strong>：系统论、控制论、信息论，创立于20世纪40年代，是系统科学领域的奠基性理论</li>
+      <li><strong>新三论（DSC论）</strong>：耗散结构论、协同论、突变论，兴起于20世纪70年代，推动了系统科学的深化发展</li>
+      <li><strong>理论价值</strong>：两者共同构成了系统科学的核心框架，广泛应用于自然科学与社会科学研究</li>
+    </ul>
+  </div>
+
+  <div class="takeaway">
+    <div class="takeaway-label">本文档回答的问题</div>
+    <ul>
+      <li>什么是"老三论"，它们各自的核心观点是什么？</li>
+      <li>什么是"新三论"，突变理论与协同理论如何解释系统演化？</li>
+      <li>这两套理论体系有何联系与区别？</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═════════════ Chapter 02：老三论 ═════════════ -->
+
+<!-- ═════════════ Chapter 03：老三论 ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">01 · The Old Trio</div>
+  <h1>二、"老三论"理论概述</h1>
+
+  <h2>1. 系统论</h2>
+  <p>
+    系统论的创始人是<span class="hl">美籍奥地利生物学家贝塔朗菲</span>。系统论要求把事物当作一个整体或系统来研究，并用数学模型去描述和确定系统的结构和行为。所谓系统，即由相互作用和相互依赖的若干组成部分结合成的、具有特定功能的有机整体；而系统本身又是它所从属的一个更大系统的组成部分。
+  </p>
+  <p>
+    贝塔朗菲旗帜鲜明地提出了<span class="hl">系统观点、动态观点和等级观点</span>。指出复杂事物功能远大于某组成因果链中各环节的简单总和，认为一切生命都处于积极运动状态，有机体作为一个系统能够保持动态稳定是系统向环境充分开放，获得物质、信息、能量交换的结果。系统论强调整体与局部、局部与局部、系统本身与外部环境之间互为依存、相互影响和制约的关系，具有<span class="hl">目的性、动态性、有序性</span>三大基本特征。
+  </p>
+
+  <h2>2. 控制论</h2>
+  <p>
+    控制论是<span class="hl">著名美国数学家维纳（Wiener N）</span>同他的合作者自觉地适应近代科学技术中不同门类相互渗透与相互融合的发展趋势而创始的。它摆脱了牛顿经典力学和拉普拉斯机械决定论的束缚，使用新的统计理论研究系统运动状态、行为方式和变化趋势的各种可能性。
+  </p>
+  <p>
+    控制论是研究系统的状态、功能、行为方式及变动趋势，控制系统的稳定，揭示不同系统的共同的控制规律，使系统按预定目标运行的<span class="hl">技术科学</span>。
+  </p>
+
+  <h2>3. 信息论</h2>
+  <p>
+    信息论是由<span class="hl">美国数学家香农</span>创立的，它是用概率论和数理统计方法，从量的方面来研究系统的信息如何获取、加工、处理、传输和控制的一门科学。信息就是指消息中所包含的新内容与新知识，是用来减少和消除人们对于事物认识的不确定性。信息是一切系统保持一定结构、实现其功能的基础。
+  </p>
+  <p>
+    <strong>狭义信息论</strong>是研究在通讯系统中普遍存在着的信息传递的共同规律，以及如何提高各信息传输系统的有效性和可靠性的一门通讯理论。<strong>广义信息论</strong>被理解为运用狭义信息论的观点来研究一切问题的理论。信息论认为，系统正是通过获取、传递、加工与处理信息而实现其有目的的运动的。信息论能够揭示人类认识活动产生飞跃的实质，有助于探索与研究人们的思维规律和推动与进化人们的思维活动。
+  </p>
+
+  <div class="callout">
+    <p style="margin:0">老三论从不同角度揭示了系统的运行机制：系统论强调整体结构与功能；控制论关注系统的调节与控制；信息论研究系统的信息传递与处理。三者共同构成了系统科学的基础理论框架。</p>
+  </div>
+</section>
+
+<!-- ═════════════ Chapter 04：新三论 - 突变理论 ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">02 · Catastrophe Theory</div>
+  <h1>三、新三论之一：突变理论</h1>
+
+  <h2>3.1 理论的产生</h2>
+  <p>
+    突变理论是<span class="hl">20世纪70年代</span>发展起来的一个新的数学分支。自然界许多事物的连续的、渐变的、平滑的运动变化过程，都可以用微积分的方法给予圆满解决。然而，自然界和社会现象中还有许多<span class="hl">突变和飞跃</span>的过程，飞跃造成的不连续性把系统的行为空间变成不可微的，微积分就无法解决。
+  </p>
+  <p>
+    <span class="hl">1972年</span>，法国数学家<span class="hl">雷内·托姆</span>（René Thom）在《结构稳定性和形态发生学》一书中，明确地阐明了突变理论，宣告了突变理论的诞生。英国数学家奇曼教授称突变理论是<span class="hl">"数学界的一项智力革命——微积分后最重要的发现"</span>。托姆为此成就而荣获国际数学界的最高奖——菲尔兹奖。
+  </p>
+
+  <h2>3.2 理论的内容</h2>
+  <p>
+    突变理论主要以拓扑学为工具，以结构稳定性理论为基础，提出了一条新的判别突变、飞跃的原则：<span class="hl">在严格控制条件下，如果质变中经历的中间过渡态是稳定的，那么它就是一个渐变过程。</span>
+  </p>
+  <p>
+    托姆指出，发生在三维空间和一维时间的四个因子控制下的突变，有<span class="hl">七种突变类型</span>：折迭突变、尖顶突变、燕尾突变、蝴蝶突变、双曲脐突变、椭圆脐形突变以及抛物脐形突变。
+  </p>
+
+  <div class="callout">
+    <blockquote>
+      一个典型案例：用大拇指和中指夹持一段有弹性的钢丝，使其向上弯曲，然后再用力压钢丝使其变形，当达到一定程度时，钢丝会突然向下弯曲，并失去弹性——这就是生活中常见的<span class="hl">尖顶突变</span>现象，它有两个稳定状态（上弯和下弯），状态由两个参数决定：手指夹持的力（水平方向）和钢丝的压力（垂直方向）。
+      <span class="cite">—— 托姆突变理论示例</span>
+    </blockquote>
+  </div>
+
+  <h2>3.3 科学哲学思想</h2>
+  <p>突变理论中所蕴含着的科学哲学思想，主要包含以下几方面：</p>
+  <ul>
+    <li>内部因素与外部相关因素的辩证统一</li>
+    <li>渐变与突变的辩证关系</li>
+    <li>确定性与随机性的内在联系</li>
+    <li>质量互变规律的深化发展</li>
+  </ul>
+
+  <h2>3.4 理论的应用</h2>
+  <p>突变理论的应用相当广泛：</p>
+  <ul>
+    <li><strong>物理学</strong>：研究了相变、分叉、混沌与突变的关系，提出了动态系统、非线性力学系统的突变模型</li>
+    <li><strong>化学</strong>：用蝴蝶突变描述氢氧化物的水溶液，用尖顶突变描述水的液、气、固的变化</li>
+    <li><strong>生态学</strong>：研究了物群的消长与生灭过程，提出了根治蝗虫的模型与方法</li>
+    <li><strong>工程技术</strong>：研究了弹性结构的稳定性，通过桥梁过载导致毁坏的实际过程，提出最优结构设计</li>
+    <li><strong>社会科学</strong>：社会变革从封建社会到资本主义社会，法国大革命采用暴力（突变），日本明治维新采用改革（渐变）</li>
+  </ul>
+</section>
+
+<!-- ═════════════ Chapter 05：新三论 - 协同理论 ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">04 · Synergetics</div>
+  <h1>四、新三论之二：协同理论</h1>
+
+  <h2>3.5 协同理论的创立</h2>
+  <p>
+    协同理论是<span class="hl">联邦德国著名理论物理学家赫尔曼·哈肯</span>在<span class="hl">1973年</span>创立的。他科学地认为自然界是由许多系统组织起来的统一体，这许多系统就称为小系统，这个统一体就是大系统。在某个大系统中的许多小系统既相互作用，又相互制约，它们的平衡结构，而且由旧的结构转变为新的结构，则有一定的规律，研究本规律的科学就是协同论。
+  </p>
+
+  <h2>3.6 核心概念：序参量</h2>
+  <p>
+    系统由混乱状态转为有一定结构的有序状态，首先需要环境提供物质流、能量流和信息流。当一个非自组织系统具备充分的外界条件时，怎样形成一定结构的自组织呢？<span class="hl">协同理论</span>为人们提供了一个极好的方法，那就是设法增加系统有序程度的参数——<span class="hl">序参量</span>。这种序参量决定了系统的有序结构和类型。
+  </p>
+
+  <div class="callout">
+    <p style="margin:0">这正是哲学中指出的<span class="hl">外因是变化的条件，内因是变化的根据，外因通过内因而起作用</span>的观点。协同理论告诉人们，系统从无序到有序的过程中，不管原先是平衡相变，还是非平衡相变，都遵守相同的基本规律，即协调规律。</p>
+  </div>
+
+  <h2>3.7 理论价值</h2>
+  <p>
+    协同学理论是处理复杂系统的一种策略。协同学的目的是建立一种用统一的观点去处理复杂系统的概念和方法。协同论的重要贡献在于通过大量的类比和严谨的分析，论证了各种自然系统和社会系统从无序到有序的演化，都是组成系统的各元素之间相互影响又协调一致的结果。
+  </p>
+  <p>
+    协同论的重要价值在于：既为一个学科的成果推广到另一个学科提供了理论依据，也为人们从已知领域进入未知领域提供了有效手段。
+  </p>
+
+  <h2>3.8 实践意义</h2>
+  <p>
+    将协同理论运用到创造性思维中，学会寻求思维系统的有序量，使其思维系统有序化，从而达到创新工作的有序，自然就会形成一系列有序的、协调的思维方法与艺术。
+  </p>
+
+  <div class="exec-summary">
+    <h2>老三论 vs. 新三论：对比小结</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>对比维度</th>
+          <th>老三论（SCI）</th>
+          <th>新三论（DSC）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>创立时间</strong></td>
+          <td>20世纪40年代</td>
+          <td>20世纪70年代</td>
+        </tr>
+        <tr>
+          <td><strong>代表人物</strong></td>
+          <td>贝塔朗菲、维纳、香农</td>
+          <td>托姆、哈肯、普里戈金</td>
+        </tr>
+        <tr>
+          <td><strong>核心问题</strong></td>
+          <td>系统的结构与功能、信息与控制</td>
+          <td>系统的演化、自组织与突变</td>
+        </tr>
+        <tr>
+          <td><strong>研究方法</strong></td>
+          <td>数学模型、统计方法</td>
+          <td>拓扑学、稳定性理论</td>
+        </tr>
+        <tr>
+          <td><strong>应用领域</strong></td>
+          <td>工程技术、通信理论</td>
+          <td>物理、化学、生物、社会科学</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═════════════ Chapter 06：附录 ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">06 · Appendix</div>
+  <h1>附录：术语表</h1>
+
+  <h2>一、老三论核心术语</h2>
+  <p><strong>系统论</strong>：把事物当作整体或系统来研究，用数学模型描述系统结构与行为的理论，由贝塔朗菲创立。</p>
+  <p><strong>控制论</strong>：研究系统状态、功能、行为方式及变动趋势，揭示共同控制规律的技术科学，由维纳创立。</p>
+  <p><strong>信息论</strong>：用概率论和数理统计方法研究信息获取、加工、处理、传输和控制的科学，由香农创立。</p>
+
+  <h2>二、新三论核心术语</h2>
+  <p><strong>突变理论</strong>：通过拓扑学和稳定性理论研究系统质变规律的理论，由托姆于1972年创立。</p>
+  <p><strong>协同理论</strong>：研究系统从无序到有序演化规律的理论，由哈肯于1973年创立，强调序参量的核心作用。</p>
+  <p><strong>耗散结构论</strong>：研究开放系统在远离平衡态时如何通过能量耗散形成有序结构的理论（本文未详述）。</p>
+
+  <h2>三、七种突变类型</h2>
+  <p>折迭突变、尖顶突变、燕尾突变、蝴蝶突变、双曲脐突变、椭圆脐形突变、抛物脐形突变。</p>
+
+  <div class="callout" style="margin-top:20pt">
+    <p style="margin:0">本论文原文来自东京大学中国留学生学术沙龙（Google Groups），作者吴天准。内容仅供学习参考，版权属于原作者。</p>
+  </div>
+</section>
+
+</body>
+</html>
